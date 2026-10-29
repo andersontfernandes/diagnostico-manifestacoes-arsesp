@@ -19,10 +19,12 @@ scripts/
   baixar_dados.py   baixa o ZIP da Arsesp e extrai os CSV
   perfil.py         perfil rápido das colunas (vazios, categorias, somas)
   tratar.py         limpeza, padronização, agregação e regras de qualidade
+  montar_site.py    monta a versão estática em site/
 dados/
   processados/      bases agregadas usadas pelo painel (JSON)
 painel/
-  index.html        página do painel
+  index.html        página do painel (formato do Claude)
+site/               versão estática do painel (Render)
 docs/
   planejamento.md   objetivo, perguntas, fluxo e dicionário de dados
   apuracao.md       problemas encontrados e tratamento aplicado
@@ -60,4 +62,12 @@ Detalhes em [docs/apuracao.md](docs/apuracao.md).
 
 ## Painel
 
-`painel/index.html` foi escrito para o tipo de painel “Dashboard” do Claude (usa o objeto `dash` para ler as bases). Ele não abre sozinho no navegador.
+`painel/index.html` foi escrito para o tipo de painel “Dashboard” do Claude (usa o objeto `dash` para ler as bases).
+
+A versão publicada como site estático fica em `site/`. Ela junta a mesma página com `site/dash-shim.js`, que substitui o `dash` lendo as bases de `site/dados/`. Para remontar depois de mudar o painel ou as bases:
+
+```bash
+python scripts/montar_site.py
+```
+
+Para ver localmente: `python -m http.server 8000 --directory site` e abrir http://localhost:8000.
